@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ReadPref {
     boolean result = false;
@@ -45,18 +48,16 @@ public class ReadPref {
         return prefs.contains(key);
     }
 
-    public ArrayList<Object> getModelArrayList(String key) {
-        ArrayList<Object> arrayList = new ArrayList<>();
-        try {
-            arrayList = (ArrayList<Object>)
-                    ObjectSerializer.deserialize(prefs.getString(key,
-                            ObjectSerializer.serialize(new ArrayList<Object>())));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+    public <T> ArrayList<T> getArrayList(String key, Type classType) {
+        Type type = new TypeToken<List<T>>(){}.getType();
 
+        type = TypeToken.getParameterized(List.class, classType).getType();
+
+        ArrayList<T> arrayList = new Gson().fromJson(prefs.getString(key, ""), type);
         return arrayList;
+    }
+
+    public <T> T getObject(String key, Type classType) {
+        return new Gson().fromJson(prefs.getString(key, ""), classType);
     }
 }

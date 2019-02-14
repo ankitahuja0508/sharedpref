@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -37,13 +39,15 @@ public class SavePref {
     }
 
 
-    public void saveModelArrayList(String key,  ArrayList<Object> arrayList) {
+    public <T> void saveArrayList(String key,  ArrayList<T> arrayList) {
         SharedPreferences.Editor editor = prefs.edit();
-        try {
-            editor.putString(key, ObjectSerializer.serialize(arrayList));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        editor.putString(key, new Gson().toJson(arrayList));
+        editor.commit();
+    }
+
+    public <T> void saveObject(String key,  T t) {
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(key, new Gson().toJson(t));
         editor.commit();
     }
 
