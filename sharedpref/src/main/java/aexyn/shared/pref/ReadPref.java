@@ -12,15 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReadPref {
-    boolean result = false;
     String TAG = "ReadPref";
     Context ctx;
-    String res = "";
     private SharedPreferences prefs;
 
     public ReadPref(Context ctx) {
         this.ctx = ctx;
         prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+    }
+
+    public ReadPref(Context ctx, String prefName) {
+        this.ctx = ctx;
+        prefs = ctx.getSharedPreferences(prefName, Context.MODE_PRIVATE);
     }
 
     public boolean getBooleanValue(String key) {
@@ -59,5 +62,13 @@ public class ReadPref {
 
     public <T> T getObject(String key, Type classType) {
         return new Gson().fromJson(prefs.getString(key, ""), classType);
+    }
+
+    public SharedPreferences getPrefs() {
+        return prefs;
+    }
+
+    public void setPrefs(SharedPreferences prefs) {
+        this.prefs = prefs;
     }
 }

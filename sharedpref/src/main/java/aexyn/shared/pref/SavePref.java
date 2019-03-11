@@ -20,6 +20,11 @@ public class SavePref {
         prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
     }
 
+    public SavePref(Context ctx, String prefName) {
+        this.ctx = ctx;
+        prefs = ctx.getSharedPreferences(prefName, Context.MODE_PRIVATE);
+    }
+
     public void saveBoolean(String key, Boolean value) {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean(key, value);
@@ -67,5 +72,13 @@ public class SavePref {
         SharedPreferences.Editor editor = prefs.edit();
         editor.clear();
         editor.commit();
+    }
+
+    public SharedPreferences getPrefs() {
+        return prefs;
+    }
+
+    public void setPrefs(SharedPreferences prefs) {
+        this.prefs = prefs;
     }
 }

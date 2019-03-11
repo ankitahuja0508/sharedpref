@@ -29,15 +29,24 @@ public class MainActivity extends AppCompatActivity {
 
         list.add(user);
 
-        //new SavePref(this).saveArrayList("list", list);
-        new SavePref(this).saveObject("object", user);
+        user = new User(2, "Ankit 1", 0.0, 0.0, 349873894, BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+        list.add(user);
 
-        //ArrayList<User> listRead = new ReadPref(this).getArrayList("list", User.class);
+        user = new User(3, "Ankit 2", 0.0, 0.0, 349873894, BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+        list.add(user);
+
+        user = new User(4, "Ankit 3", 0.0, 0.0, 349873894, BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+        list.add(user);
+
+        new SavePref(this).saveArrayList("list", list);
+        //new SavePref(this).saveObject("object", list);
+
+        ArrayList<User> listRead = new ReadPref(this).getArrayList("list", User.class);
 
         //User userRead = listRead.get(0);
-        User userRead = new ReadPref(this).getObject("object", User.class);
+        //User userRead = new ReadPref(this).getObject("object", User.class);
 
-        Log.i("TAG", "onCreate: " + userRead.getName());
+        Log.i("TAG", "onCreate: " + listRead.size());
 
     }
 }
